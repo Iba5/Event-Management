@@ -1,0 +1,47 @@
+    ====================================
+ *          EVENTS ROUTER
+ *  ==================================== 
+ * 
+ * Add event
+ * update event
+ * register event
+ * get events expired,ongoing and upcoming
+ * get details about the event
+ * get event based reports
+ * 
+ * ----------------------------------------------
+ *          WHAT ELSE WILL BE THERE:
+ * -----------------------------------------------
+ *  Payment gateway which will handle payments
+ *  image processing for the events
+ *  generation of reports in excel sheet 
+ *  notification which will be sent to the students
+ * 
+ * 
+ * 
+ * ================================================
+ *  ::::::::::::OVERALL ARCHITECTURE:::::::::::::::
+ * ================================================
+ *      - add / update event
+        - event metadata
+        - images
+
+        EVENT LIFECYCLE
+        - upcoming / ongoing / expired
+        - notifications
+        - closure
+
+        EVENT PARTICIPATION
+        - registration
+        - payments
+
+        EVENT INTELLIGENCE
+        - reports
+        - exports 
+
+
+        
+ADMIN FORMAT:
+
+    4 numbers - emp_id
+    name@adityauniversity.in  - emp_name
