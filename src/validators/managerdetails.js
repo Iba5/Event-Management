@@ -6,7 +6,7 @@ const normalize = (v)=>{
 const curryear = new Date().getFullYear()
 const CreateManager = z.object(
     {
-        emp_id:z.Number(),
+        emp_id:z.number(),
         email:z.string()
             .email()
             .endsWith("@adityauniversity.in"),

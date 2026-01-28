@@ -30,11 +30,11 @@ const transSchema= new Schema({
         default: 'PENDING'
     },
     providerOrderId:{
-        type:UUID,
+        type:String,
         immutable:true
     },
     providerPaymentId:{
-        type:UUID,
+        type:String,
         immutable:true
     },   
 },{timestamps:{updatedAt:"paid_at"}})

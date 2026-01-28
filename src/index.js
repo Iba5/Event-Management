@@ -1,6 +1,7 @@
 require("dotenv").config()
 const express = require('express');
-const authRouter=require('./routes/authrouter');
+const studentRouter=require('./routes/studentrouter')
+const adminRouter=require('../src/routes/adminrouter')
 const eventRouter = require('../src/routes/eventrouter')
 const mongoose = require('mongoose')
 
@@ -8,7 +9,8 @@ const app = express();
 
 const PORT = process.env.PORT || 3000
 app.use(express.json())
-app.use('/auth',authRouter)
+app.use('/auth/admins',adminRouter)
+app.use('/auth/students',studentRouter)
 app.use('/events',eventRouter)
 
 app.get("/",(req,res)=>{
