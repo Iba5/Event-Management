@@ -1,6 +1,6 @@
 const express = require('express')
 const route = express.Router()
-const { CreateManager }= require('../validators/Managerdetails')
+const { CreateManager }= require('../validators/managerdetails')
 const { en_access,  refresh  } = require('../utils/tokenManager')
 const { manager } = require('../models/usermodel')
 const { hashed , verify , hashed_refresh } = require('../utils/passwordManager')
