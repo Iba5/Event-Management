@@ -36,8 +36,9 @@ route.post("/login",async (req,res)=>{
         const tkn = await refresh(data)
         res.cookie("refresh_token",tkn,{
             httpOnly:true,
-            // secure:true,
-            sameSite:"strict",
+            secure:true,
+            sameSite:"none",
+            path:"/",
             maxAge:1000*60*60*24*7,
             signed:true
         }) 
@@ -73,8 +74,9 @@ route.post("/register",async (req,res)=>{
         const tkn = await refresh(new_student)
         res.cookie("refresh_token",tkn,{
             httpOnly:true,
-            // secure:true,
-            sameSite:"strict",
+            secure:true,
+            sameSite:"none",
+            path:"/",
             maxAge:1000*60*60*24*7,
             signed:true
         })
@@ -128,8 +130,10 @@ route.post("/logout",async (req,res)=>{
         data.isActive=false
         await data.save()
         res.clearCookie("refresh_token",{
+            secure:true,
             httpOnly:true,
-            sameSite:"strict",
+            sameSite:"none",
+            path:"/",
             signed:true
         })
         res.status(200).send({
