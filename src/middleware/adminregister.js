@@ -1,4 +1,5 @@
 const { manager } = require('../models/usermodel')
+const {verify_access} = require('../utils/tokenManager')
 
 const adminmiddleware = async (req,res,next) => {
     const info = {
@@ -47,6 +48,7 @@ const operationalmode = async (req,res,next)=>{
         // now if the token is valid we decode it
         if(user["role"] !== "superadmin")
         {
+            console.log(user["role"])
             res.status(401).send({
                 "meassage":"You don't have the priviledge"
             })
@@ -57,6 +59,7 @@ const operationalmode = async (req,res,next)=>{
     }
     catch(err)
     {
+        console.log(err)
         res.status(403).send({
             "message":"invalid or expired token"
         });

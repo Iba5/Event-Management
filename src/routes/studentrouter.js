@@ -66,26 +66,46 @@ route.post("/register",async (req,res)=>{
         ...req.body,
         password:db_pwd
     }
-    const new_student = await student.create(info)
+    try {
+        const new_student = await student.create(info);
+        const access = await en_access(new_student.id,data.role)
+        res.header("Authorization",`Bearer ${access}`)
+        const tkn = await refresh(new_student)
+        res.cookie("refresh_token",tkn,{
+            httpOnly:true,
+            // secure:true,
+            sameSite:"strict",
+            maxAge:1000*60*60*24*7,
+            signed:true
+        })
+        res.status(201).json({
+          success: true,
+          message: "Student registered successfully",
+          data:{
+            "name":new_student.name,
+            "rollnumber":new_student.rollnumber,
+            "email":new_student.email,
+            "branch":new_student.branch,
+            "campus":new_student.campus,
+            "year":new_student.year
+        }
+        });
+      
+      } catch (error) {
+        if (error.code === 11000) {
+          return res.status(409).json({
+            success: false,
+            message: "Student with this roll number already exists",
+          });
+        }
+      
+        res.status(500).json({
+          success: false,
+          message: "Internal server error",
+        });
+      }
+      
     // here we add the user into the database {this is a to do task not yet connected to db}
-    const access = await en_access(new_student.id,data.role)
-    res.header("Authorization",`Bearer ${access}`)
-    const tkn = await refresh(new_student)
-    res.cookie("refresh_token",tkn,{
-        httpOnly:true,
-        // secure:true,
-        sameSite:"strict",
-        maxAge:1000*60*60*24*7,
-        signed:true
-    })
-    res.status(201).send({
-        "name":new_student.name,
-        "rollnumber":new_student.rollnumber,
-        "email":new_student.email,
-        "branch":new_student.branch,
-        "campus":new_student.campus,
-        "year":new_student.year
-    })
 })
 
 route.post("/logout",async (req,res)=>{
@@ -97,7 +117,7 @@ route.post("/logout",async (req,res)=>{
         })
         return
     }
-        const token = hashed_refresh(refresh_token);
+        const token = await hashed_refresh(refresh_token);
         const data = await student.findOne({refresh:token})
         if(!data){
             res.status(200).send({
@@ -134,7 +154,7 @@ route.post("/renew", async (req,res)=>
         })
         return
     }
-        const token = hashed_refresh(refresh_token);
+        const token = await hashed_refresh(refresh_token);
         const data = await student.findOne({refresh:token})
         if(!data){
             res.status(404).send({

@@ -45,3 +45,41 @@ ADMIN FORMAT:
 
     4 numbers - emp_id
     name@adityauniversity.in  - emp_name
+
+
+
+
+
+    {
+    "rollnumber": "24B11CS542",
+    "email": "24B11CS542@adityauniversity.in",
+    "password": "2005!Ibanoshi",
+    "name": "Ibanoshi Kariwo",
+    "role": "student",
+    "branch": "CSE",
+    "campus": "AUS",
+    "year": 2024
+}
+
+
+{
+    "rollnumber": "24B11CS542",
+    "password": "2005!Ibanoshi"
+}
+
+
+admins:
+{
+    "emp_id": 9952,
+    "email":"ibanoshikariwo@adityauniversity.in",
+    "password":"Ibanoshi2005!",
+    "name":"Ibanoshi Kariwo",
+    "role":"superadmin",
+    "department":"ALL",
+    "campus":"ALL",
+}
+
+{
+    "email":"ibanoshikariwo@adityauniversity.in",
+    "password":"Ibanoshi2005!"
+}

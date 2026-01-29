@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt')
+const crypto = require('crypto')
 
 const hashed = async (password)=>{
     return bcrypt.hash(password,10)

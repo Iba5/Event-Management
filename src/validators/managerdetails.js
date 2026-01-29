@@ -1,12 +1,11 @@
 const { z } = require('zod')
 
 const normalize = (v)=>{
-  v.replace(/\s+/g," ").toLowerCase()
+  return v.toLowerCase().replace(/\s+/g,"")
 }
-const curryear = new Date().getFullYear()
 const CreateManager = z.object(
     {
-        emp_id:z.number(),
+        emp_id:z.coerce.number(),
         email:z.string()
             .email()
             .endsWith("@adityauniversity.in"),
@@ -31,8 +30,9 @@ const CreateManager = z.object(
     }).superRefine(
         (data,ctx)=>{
          const start = normalize(data.name)
-
-            if(!data.email.startsWith(start))
+          const expected= `${start}@adityauniversity.in`
+          console.log(data.email+" "+expected)
+            if(data.email!=expected)
             {
                 ctx.addIssue({
                     path:["email"],

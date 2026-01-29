@@ -66,6 +66,7 @@ route.post("/register",adminmiddleware,async (req,res)=>{
         ...req.body,
         password:db_pwd
     }
+    try{
     const new_manager = await manager.create(info)
     // here we add the user into the database {this is a to do task not yet connected to db}
     const access = await en_access(new_manager.id,new_manager.role)
@@ -79,11 +80,30 @@ route.post("/register",adminmiddleware,async (req,res)=>{
         signed:true
     })
     res.status(201).send({
-        "name":new_manager.name,
-        "emp_id":new_manager.emp_id,
-        "email":new_manager.email,
-        "department":new_manager.department,
-        "campus":new_manager.campus
+        "success":true,
+        "message":"Admin registered",
+        "detail":{
+            "name":new_manager.name,
+            "emp_id":new_manager.emp_id,
+            "email":new_manager.email,
+            "department":new_manager.department,
+            "campus":new_manager.campus
+        }
+    })
+    }
+    catch(err)
+    {
+        if(err==11000)
+        {
+            res.status(409).send({
+                "success":false,
+                "message":"User already exist"
+            })
+        }
+    }
+    res.status(500).send({
+        "success":false,
+        "message":"Internal server error"
     })
 })
 
@@ -96,7 +116,7 @@ route.post("/logout",async (req,res)=>{
         })
         return
     }
-        const token = hashed_refresh(refresh_token);
+        const token = await hashed_refresh(refresh_token);
         const data = await manager.findOne({refresh:token})
         if(!data){
             res.status(200).send({
@@ -133,7 +153,7 @@ route.post("/renew", async (req,res)=>
         })
         return
     }
-        const token = hashed_refresh(refresh_token);
+        const token = await hashed_refresh(refresh_token);
         const data = await manager.findOne({refresh:token})
         if(!data){
             res.status(404).send({
