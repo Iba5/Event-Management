@@ -5,6 +5,9 @@ const { event,registration } = require('../models/eventmodel')
 const { transaction }= require('../models/transactionmodel')
 const authmiddleware = require('../middleware/authmiddleware')
 const route = express.Router()
+const toIST = (date) => {
+    return new Date(date).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+  };
 
 route.use(authmiddleware);
 route.post("/add",async(req,res)=>{
@@ -26,9 +29,12 @@ route.post("/add",async(req,res)=>{
             )
         }
     const new_event = await event.create(data.data)
+    let result = new_event.toObject();
+    result.start_date = toIST(result.start_date);
+    result.last_date = toIST(result.last_date);
     res.status(201).json({
         "message":"new event added",
-        "details":new_event
+        "details":result
     })
 })
 
